@@ -7,22 +7,32 @@ public class CameraFollow : MonoBehaviour
     public Transform playerTransform;
     public Transform opponentTransform;
 
-    public float minDist;
-    private float maxDist = -10.0f;
+    public float minDist = -0.5f;
+    public float maxDist = -10.0f;
+    public float speed = 0.5f;
 
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
         float distance = Mathf.Abs(playerTransform.position.x - opponentTransform.position.x) * 2;
         float centrePoint = (playerTransform.position.x + opponentTransform.position.x) / 2;
 
-        transform.position = new Vector3(centrePoint, transform.position.y, distance > minDist ? -distance : -minDist);
+        //Moves the camera in a smooth motion towards the centrepoint of the distance between player & opponent
 
-        if(transform.position.z < maxDist)
+        //transform.position = new Vector3(centrePoint, transform.position.y, distance * speed > minDist ? -distance   : -minDist) ;
+        transform.position = Vector3.Lerp(transform.position, new Vector3(centrePoint, transform.position.y, distance * speed > minDist ? -distance : -minDist), speed * Time.deltaTime);
+       
+        //limiting the max camera movement
+
+
+        if (transform.position.z < maxDist) 
         {
-            transform.position = new Vector3(centrePoint, transform.position.y, distance < maxDist ? distance : maxDist);
+            //transform.position = new Vector3(centrePoint, transform.position.y, distance * speed < maxDist ? distance : maxDist);
+            transform.position = new Vector3(transform.position.x, transform.position.y, maxDist);
         }
 
     }
+
+    
 }
