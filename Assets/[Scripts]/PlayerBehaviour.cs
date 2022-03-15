@@ -4,7 +4,9 @@ using UnityEngine;
 
 public class PlayerBehaviour : MonoBehaviour
 {
+    public static float MAX_HEALTH = 100f;
 
+    public float health = MAX_HEALTH;
     public Animator anim;
     private Rigidbody _rb;
 
@@ -154,6 +156,14 @@ public class PlayerBehaviour : MonoBehaviour
         foreach (AnimatorControllerParameter parameter in anim.parameters)
         {
             anim.ResetTrigger(parameter.name);
+        }
+    }
+
+    public float healthPercent
+    {
+        get
+        {
+            return health / MAX_HEALTH;
         }
     }
 
