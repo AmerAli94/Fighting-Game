@@ -7,7 +7,9 @@ using UnityEngine.UI;
 public class UIController : MonoBehaviour
 {
     public PlayerBehaviour player;
+    public EnemyController enemy;
     public Scrollbar playerHealthBar;
+    public Scrollbar enemyHealthBar;
 
     // Update is called once per frame
     void Update()
@@ -16,6 +18,10 @@ public class UIController : MonoBehaviour
         {
             playerHealthBar.size -= 0.01f;
         }
-        
+        if (enemyHealthBar.size > enemy.healthPercent)
+        {
+            enemyHealthBar.size -= 0.01f;
+        }
+
     }
 }

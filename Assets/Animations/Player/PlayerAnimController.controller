@@ -8,7 +8,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Crouch
-  m_Speed: 1
+  m_Speed: 2
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 552361011666232573}
@@ -330,7 +330,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 699b9ce19d5549d4e8595be8af2f2a10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  horizontalForce: 0
+  horizontalForce: 150
   verticalForce: 200
 --- !u!114 &-418576123210901498
 MonoBehaviour:

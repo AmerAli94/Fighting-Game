@@ -9,6 +9,7 @@ public class PlayerBehaviour : MonoBehaviour
     public float health = MAX_HEALTH;
     public Animator anim;
     private Rigidbody _rb;
+    private Collider playerCollider;
 
     int CurrentComboPriorty = 0;
 
@@ -25,6 +26,7 @@ public class PlayerBehaviour : MonoBehaviour
     void Start()
     {
         _rb = GetComponent<Rigidbody>();
+        playerCollider = GetComponent<Collider>();
         
     }
 
@@ -53,25 +55,8 @@ public class PlayerBehaviour : MonoBehaviour
             anim.SetBool("Crouch", false);
             //_anim.SetFloat("WalkSpeed", 1, 0.1f, Time.deltaTime);
         }
-        //Walk front
-        if (Input.GetAxis("Horizontal") > 0.1)
-        {
-            anim.SetBool("Walk", true);
-            anim.SetBool("Walk_Back", false);
-            anim.SetBool("Crouch", false);
-            //_anim.SetFloat("WalkSpeed", 1, 0.1f, Time.deltaTime);
-        }
 
-        // Walk Back
-        if (Input.GetAxis("Horizontal") < -0.1)
-        {
-            anim.SetBool("Walk_Back", true);
-            anim.SetBool("Walk", false);
-            anim.SetBool("Crouch", false);
-            // _anim.SetFloat("WalkSpeed", 1, 0.1f, Time.deltaTime);
-
-
-        }
+   
 
         // Crouch
         if (Input.GetAxis("Vertical") < -0.1)
@@ -92,31 +77,40 @@ public class PlayerBehaviour : MonoBehaviour
 
         }
 
-        //// Punch
-        //if (Input.GetKeyDown(KeyCode.Q))
-        //{
-        //    _anim.SetTrigger("Punch");
-        //    _anim.SetBool("Walk", false);
-        //    _anim.SetBool("Walk_Back", false);
-        //    _anim.SetBool("Crouch", false);
+        //Block
+        if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            anim.SetBool("Block", true);
+            anim.SetBool("Walk", false);
+            anim.SetBool("Walk_Back", false);
+            anim.SetBool("Crouch", false);
 
-        //}
+        }
 
-        //// Kick
-        //if (Input.GetKeyDown(KeyCode.E))
-        //{
-        //    _anim.SetTrigger("Kick");
-        //    _anim.SetBool("Walk", false);
-        //    _anim.SetBool("Walk_Back", false);
-        //    _anim.SetBool("Crouch", false);
-
-        //}
+        if (Input.GetKeyUp(KeyCode.LeftShift))
+        {
+            anim.SetBool("Block", false);
+            anim.SetBool("Walk", false);
+            anim.SetBool("Walk_Back", false);
+            anim.SetBool("Crouch", false);
+        }
 
         if (Input.GetKeyDown(KeyCode.Escape))
         {
             Application.Quit();
 
         }
+
+        if(transform.rotation.eulerAngles.y == 90.0f)
+        {
+            DefaultHorizontalMovement();
+        }
+        else
+        {
+            invertedHorizontalInput();
+        }
+
+
 
     }
     public void PlayMove(combosList combo, int ComboPriorty) //Get the Move and the Priorty
@@ -142,15 +136,98 @@ public class PlayerBehaviour : MonoBehaviour
                 case combosList.Kick:
                     anim.SetTrigger("Kick");
                     Debug.Log("Kicking");
-
                     break;
-                
+                case combosList.Block:
+                    anim.SetBool("Block", true);
+                    break;
+
             }
 
             CurrentComboPriorty = 0; //Reset the Combo Priorty
         }
     }
 
+    void DefaultHorizontalMovement()
+    {
+        //Walk front
+        //if (Input.GetAxis("Horizontal") > 0.1)
+        //{
+        //    anim.SetBool("Walk", false);
+        //    anim.SetBool("Walk_Back", true);
+        //    anim.SetBool("Crouch", false);
+        //    //_anim.SetFloat("WalkSpeed", 1, 0.1f, Time.deltaTime);
+        //}
+
+        //// Walk Back
+        //if (Input.GetAxis("Horizontal") < -0.1)
+        //{
+        //    anim.SetBool("Walk_Back", false);
+        //    anim.SetBool("Walk", true);
+        //    anim.SetBool("Crouch", false);
+        //    // _anim.SetFloat("WalkSpeed", 1, 0.1f, Time.deltaTime);
+        //}
+
+
+
+
+        //Walk front
+        if (Input.GetAxis("Horizontal") > 0.1)
+        {
+            anim.SetBool("Walk", true);
+            anim.SetBool("Walk_Back", false);
+            anim.SetBool("Crouch", false);
+            //_anim.SetFloat("WalkSpeed", 1, 0.1f, Time.deltaTime);
+        }
+
+        // Walk Back
+        if (Input.GetAxis("Horizontal") < -0.1)
+        {
+            anim.SetBool("Walk_Back", true);
+            anim.SetBool("Walk", false);
+            anim.SetBool("Crouch", false);
+            // _anim.SetFloat("WalkSpeed", 1, 0.1f, Time.deltaTime);
+        }
+    }
+
+    void invertedHorizontalInput()
+    {
+        //Walk front
+        //if (Input.GetAxis("Horizontal") > 0.1)
+        //{
+        //    anim.SetBool("Walk", true);
+        //    anim.SetBool("Walk_Back", false);
+        //    anim.SetBool("Crouch", false);
+        //    //_anim.SetFloat("WalkSpeed", 1, 0.1f, Time.deltaTime);
+        //}
+
+        //// Walk Back
+        //if (Input.GetAxis("Horizontal") < -0.1)
+        //{
+        //    anim.SetBool("Walk_Back", true);
+        //    anim.SetBool("Walk", false);
+        //    anim.SetBool("Crouch", false);
+        //    // _anim.SetFloat("WalkSpeed", 1, 0.1f, Time.deltaTime);
+        //}
+
+
+        //Walk front
+        if (Input.GetAxis("Horizontal") > 0.1)
+        {
+            anim.SetBool("Walk", false);
+            anim.SetBool("Walk_Back", true);
+            anim.SetBool("Crouch", false);
+            //_anim.SetFloat("WalkSpeed", 1, 0.1f, Time.deltaTime);
+        }
+
+        // Walk Back
+        if (Input.GetAxis("Horizontal") < -0.1)
+        {
+            anim.SetBool("Walk_Back", false);
+            anim.SetBool("Walk", true);
+            anim.SetBool("Crouch", false);
+            // _anim.SetFloat("WalkSpeed", 1, 0.1f, Time.deltaTime);
+        }
+    }
     void ResetTriggers() //Reset All the Animation Triggers so we don't have overlapping animations
     {
         foreach (AnimatorControllerParameter parameter in anim.parameters)
@@ -165,6 +242,16 @@ public class PlayerBehaviour : MonoBehaviour
         {
             return health / MAX_HEALTH;
         }
+    }
+
+    public void OpenColliderForJump()
+    {
+        playerCollider.enabled = true;
+    }
+
+    public void CloseColliderForJump()
+    {
+        playerCollider.enabled = false;
     }
 
 }
