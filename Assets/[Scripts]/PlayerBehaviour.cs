@@ -9,6 +9,8 @@ public class PlayerBehaviour : MonoBehaviour
     public float health = MAX_HEALTH;
     public Animator anim;
     private Rigidbody _rb;
+    public Collider rightPunchCollider;
+    public Collider leftPunchCollider;
     private Collider playerCollider;
 
     int CurrentComboPriorty = 0;
@@ -140,6 +142,10 @@ public class PlayerBehaviour : MonoBehaviour
                 case combosList.Block:
                     anim.SetBool("Block", true);
                     break;
+                case combosList.Punch_L:
+                    anim.SetTrigger("Punch_L");
+                        break;
+
 
             }
 
@@ -252,6 +258,58 @@ public class PlayerBehaviour : MonoBehaviour
     public void CloseColliderForJump()
     {
         playerCollider.enabled = false;
+    }
+
+    public void OpenRightPunchCollider()
+    {
+        rightPunchCollider.enabled = true;
+    }
+    public void CloseRightPunchCollider()
+    {
+        rightPunchCollider.enabled = false;
+    }
+    public void OpenLeftPunchCollider()
+    {
+        leftPunchCollider.enabled = true;
+    }
+    public void CloseLeftPunchCollider()
+    {
+        leftPunchCollider.enabled = false;
+    }
+
+
+    public virtual void RightPunchDamage(float damage)
+    {
+        if (health >= damage)
+        {
+            health -= damage;
+        }
+        else
+        {
+            health = 0;
+        }
+
+        if (health > 0)
+        {
+            anim.SetTrigger("Take_Hit");
+        }
+    }
+
+    public virtual void LeftPunchDamage(float damage)
+    {
+        if (health >= damage)
+        {
+            health -= damage;
+        }
+        else
+        {
+            health = 0;
+        }
+
+        if (health > 0)
+        {
+            anim.SetTrigger("Take_Hit");
+        }
     }
 
 }
