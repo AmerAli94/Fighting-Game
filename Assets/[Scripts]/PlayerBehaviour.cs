@@ -8,9 +8,12 @@ public class PlayerBehaviour : MonoBehaviour
 
     public float health = MAX_HEALTH;
     public Animator anim;
+    public States currentState = States.IDLE;
     private Rigidbody _rb;
     public Collider rightPunchCollider;
     public Collider leftPunchCollider;
+    public Collider leftKickCollider;
+    public Collider rightKickCollider;
     private Collider playerCollider;
 
     int CurrentComboPriorty = 0;
@@ -56,17 +59,6 @@ public class PlayerBehaviour : MonoBehaviour
             anim.SetBool("Walk_Back", false);
             anim.SetBool("Crouch", false);
             //_anim.SetFloat("WalkSpeed", 1, 0.1f, Time.deltaTime);
-        }
-
-   
-
-        // Crouch
-        if (Input.GetAxis("Vertical") < -0.1)
-        {
-            anim.SetBool("Crouch", true);
-            anim.SetBool("Walk_Back", false);
-            anim.SetBool("Walk", false);
-
         }
 
         // Jump
@@ -131,22 +123,24 @@ public class PlayerBehaviour : MonoBehaviour
             //Set the Animation Triggers
             switch (combo)
             {
-                case combosList.Punch:
+                case combosList.Punch_R:
                     anim.SetTrigger("Punch");
-                    Debug.Log("Punching");
                     break;
-                case combosList.Kick:
-                    anim.SetTrigger("Kick");
-                    Debug.Log("Kicking");
+                case combosList.Punch_L:
+                    anim.SetTrigger("Punch_L");
+                    break;
+                case combosList.Punch_Combo:
+                    anim.SetTrigger("Punch_Combo");
+                    break;
+                case combosList.Kick_R:
+                    anim.SetTrigger("Kick_R");
+                    break;
+                case combosList.Kick_L:
+                    anim.SetTrigger("Kick_L");
                     break;
                 case combosList.Block:
                     anim.SetBool("Block", true);
                     break;
-                case combosList.Punch_L:
-                    anim.SetTrigger("Punch_L");
-                        break;
-
-
             }
 
             CurrentComboPriorty = 0; //Reset the Combo Priorty
@@ -155,27 +149,7 @@ public class PlayerBehaviour : MonoBehaviour
 
     void DefaultHorizontalMovement()
     {
-        //Walk front
-        //if (Input.GetAxis("Horizontal") > 0.1)
-        //{
-        //    anim.SetBool("Walk", false);
-        //    anim.SetBool("Walk_Back", true);
-        //    anim.SetBool("Crouch", false);
-        //    //_anim.SetFloat("WalkSpeed", 1, 0.1f, Time.deltaTime);
-        //}
-
-        //// Walk Back
-        //if (Input.GetAxis("Horizontal") < -0.1)
-        //{
-        //    anim.SetBool("Walk_Back", false);
-        //    anim.SetBool("Walk", true);
-        //    anim.SetBool("Crouch", false);
-        //    // _anim.SetFloat("WalkSpeed", 1, 0.1f, Time.deltaTime);
-        //}
-
-
-
-
+      
         //Walk front
         if (Input.GetAxis("Horizontal") > 0.1)
         {
@@ -197,24 +171,6 @@ public class PlayerBehaviour : MonoBehaviour
 
     void invertedHorizontalInput()
     {
-        //Walk front
-        //if (Input.GetAxis("Horizontal") > 0.1)
-        //{
-        //    anim.SetBool("Walk", true);
-        //    anim.SetBool("Walk_Back", false);
-        //    anim.SetBool("Crouch", false);
-        //    //_anim.SetFloat("WalkSpeed", 1, 0.1f, Time.deltaTime);
-        //}
-
-        //// Walk Back
-        //if (Input.GetAxis("Horizontal") < -0.1)
-        //{
-        //    anim.SetBool("Walk_Back", true);
-        //    anim.SetBool("Walk", false);
-        //    anim.SetBool("Crouch", false);
-        //    // _anim.SetFloat("WalkSpeed", 1, 0.1f, Time.deltaTime);
-        //}
-
 
         //Walk front
         if (Input.GetAxis("Horizontal") > 0.1)
@@ -277,9 +233,31 @@ public class PlayerBehaviour : MonoBehaviour
         leftPunchCollider.enabled = false;
     }
 
+    public void OpenLeftKickCollider()
+    {
+        leftKickCollider.enabled = true;
+    }
+    public void CloseLeftKickCollider()
+    {
+        leftKickCollider.enabled = false;
+    }
+
+    public void OpenRightKickCollider()
+    {
+        rightKickCollider.enabled = true;
+    }
+    public void CloseRightKickCollider()
+    {
+        rightKickCollider.enabled = false;
+    }
+
 
     public virtual void RightPunchDamage(float damage)
     {
+        if (blocking)
+        {
+            damage *= 0.2f;
+        }
         if (health >= damage)
         {
             health -= damage;
@@ -289,14 +267,24 @@ public class PlayerBehaviour : MonoBehaviour
             health = 0;
         }
 
-        if (health > 0)
+        if (health > 0 && currentState != States.BLOCK)
         {
             anim.SetTrigger("Take_Hit");
+        }
+
+        if (health <= 0 && currentState != States.DEAD)
+        {
+            anim.SetTrigger("Dead");
         }
     }
 
     public virtual void LeftPunchDamage(float damage)
     {
+
+        if (blocking)
+        {
+            damage *= 0.2f;
+        }
         if (health >= damage)
         {
             health -= damage;
@@ -306,10 +294,24 @@ public class PlayerBehaviour : MonoBehaviour
             health = 0;
         }
 
-        if (health > 0)
+        if (health > 0 && currentState != States.BLOCK)
         {
             anim.SetTrigger("Take_Hit");
         }
+
+        if (health <= 0 && currentState != States.DEAD)
+        {
+            anim.SetTrigger("Dead");
+        }
     }
+
+    public bool blocking
+    {
+        get
+        {
+            return currentState == States.BLOCK;
+        }
+    }
+
 
 }

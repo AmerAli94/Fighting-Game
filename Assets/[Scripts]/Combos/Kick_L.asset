@@ -10,8 +10,8 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ee2631bce6031d14aab61489bfe46697, type: 3}
-  m_Name: Punch_L
+  m_Name: Kick_L
   m_EditorClassIdentifier: 
-  comboKeyCodes: 03010000
-  comboType: 2
-  ComboPriorty: 5
+  comboKeyCodes: 63000000
+  comboType: 4
+  ComboPriorty: 50

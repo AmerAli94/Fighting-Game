@@ -7,6 +7,7 @@ public class EnemyAnimStateBehavior : StateMachineBehaviour
 
     public float horizontalForce;
     public float verticalForce;
+    public States opponentStateBehaviour;
 
     protected EnemyController _enemy;
 
@@ -16,7 +17,7 @@ public class EnemyAnimStateBehavior : StateMachineBehaviour
         {
             _enemy = animator.gameObject.GetComponent<EnemyController>();
         }
-
+        _enemy.currentState = opponentStateBehaviour;
         Rigidbody rb = _enemy.GetComponent<Rigidbody>();
         rb.AddRelativeForce(new Vector3(0, verticalForce, 0));
 

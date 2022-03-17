@@ -13,7 +13,10 @@ public class EnemyController : MonoBehaviour
     public Transform playerTransform;
     public Collider opponentRightPunchCollider;
     public Collider opponentLeftPunchCollider;
+    public Collider opponentLeftKickCollider;
+    public Collider opponentRightKickCollider;
 
+    public States currentState = States.IDLE;
     private float random;
     private float randonSetTime;
 
@@ -28,7 +31,6 @@ public class EnemyController : MonoBehaviour
     void Update()
     {
         UpdateOpponentInput();
-    
     }
 
     public void UpdateOpponentInput()
@@ -36,7 +38,7 @@ public class EnemyController : MonoBehaviour
         anim.SetFloat("Random", random);
         anim.SetFloat("distanceToPlayer", GetDistanceToPlayer());
 
-        if(Time.time - randonSetTime > 1)
+        if (Time.time - randonSetTime > 1)
         {
             random = Random.value;
             randonSetTime = Time.time;
@@ -58,6 +60,10 @@ public class EnemyController : MonoBehaviour
 
     public virtual void RightPunchDamage(float damage)
     {
+        if(blocking)
+        {
+            damage *= 0.2f;
+        }
         if (health >= damage)
         {
             health -= damage;
@@ -67,12 +73,64 @@ public class EnemyController : MonoBehaviour
             health = 0;
         }
 
-        if (health > 0)
+        if (health > 0 && currentState != States.BLOCK)
+        {
+            anim.SetTrigger("Take_Hit_LP");
+        }
+
+        if (health <= 0 && currentState != States.DEAD)
+        {
+            anim.SetTrigger("Dead");
+        }
+    }
+
+    public virtual void RightKickDamage(float damage)
+    {
+        if (blocking)
+        {
+            damage *= 0.2f;
+        }
+        if (health >= damage)
+        {
+            health -= damage;
+        }
+        else
+        {
+            health = 0;
+        }
+
+        if (health > 0 && currentState != States.BLOCK)
+        {
+            anim.SetTrigger("Take_Hit_LP");
+        }
+
+        if (health <= 0 && currentState != States.DEAD)
+        {
+            anim.SetTrigger("Dead");
+        }
+    }
+
+    public virtual void LeftKickDamage(float damage)
+    {
+        if (blocking)
+        {
+            damage *= 0.2f;
+        }
+        if (health >= damage)
+        {
+            health -= damage;
+        }
+        else
+        {
+            health = 0;
+        }
+
+        if (health > 0 && currentState != States.BLOCK)
         {
             anim.SetTrigger("Take_Hit");
         }
 
-        if (health <= 0)
+        if (health <= 0 && currentState != States.DEAD)
         {
             anim.SetTrigger("Dead");
         }
@@ -81,6 +139,11 @@ public class EnemyController : MonoBehaviour
 
     public virtual void LeftPunchDamage(float damage)
     {
+
+        if (blocking)
+        {
+            damage *= 0.2f;
+        }
         if (health >= damage)
         {
             health -= damage;
@@ -90,11 +153,11 @@ public class EnemyController : MonoBehaviour
             health = 0;
         }
 
-        if (health > 0)
+        if (health > 0 && currentState != States.BLOCK)
         {
-            anim.SetTrigger("Take_Hit_LP");
+            anim.SetTrigger("Take_Hit");
         }
-        if (health <= 0)
+        if (health <= 0 && currentState != States.DEAD)
         {
             anim.SetTrigger("Dead");
         }
@@ -109,6 +172,34 @@ public class EnemyController : MonoBehaviour
     public void CloseOpponentLeftPunchCollider()
     {
         opponentLeftPunchCollider.enabled = false;
+    }
+
+    public void OpenOpponentRightPunchCollider()
+    {
+        opponentRightPunchCollider.enabled = true;
+    }
+
+    public void CloseOpponentRightPunchCollider()
+    {
+        opponentRightPunchCollider.enabled = false;
+    }
+
+    public void OpenOpponentLeftKickCollider()
+    {
+        opponentLeftKickCollider.enabled = true;
+    }
+
+    public void CloseOpponentLeftKickCollider()
+    {
+        opponentLeftKickCollider.enabled = false;
+    }
+
+    public bool blocking
+    {
+        get
+        {
+            return currentState == States.BLOCK;
+        }
     }
 
 }

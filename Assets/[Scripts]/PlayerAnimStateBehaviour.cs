@@ -5,7 +5,7 @@ public class PlayerAnimStateBehaviour : StateMachineBehaviour
 {
     public float horizontalForce;
     public float verticalForce;
-
+    public States stateBehaviour;
     protected PlayerBehaviour _player;
 
     override public void OnStateEnter(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
@@ -14,7 +14,7 @@ public class PlayerAnimStateBehaviour : StateMachineBehaviour
         {
             _player = animator.gameObject.GetComponent<PlayerBehaviour>();
         }
-
+        _player.currentState = stateBehaviour;
         Rigidbody rb = _player.GetComponent<Rigidbody>();
         rb.AddRelativeForce(new Vector3(0, verticalForce, 0));
 
