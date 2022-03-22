@@ -495,7 +495,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 699b9ce19d5549d4e8595be8af2f2a10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  horizontalForce: -75
+  horizontalForce: -200
   verticalForce: 0
   stateBehaviour: 2
   soundFX: {fileID: 0}
@@ -820,7 +820,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 699b9ce19d5549d4e8595be8af2f2a10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  horizontalForce: 75
+  horizontalForce: 200
   verticalForce: 0
   stateBehaviour: 1
   soundFX: {fileID: 0}

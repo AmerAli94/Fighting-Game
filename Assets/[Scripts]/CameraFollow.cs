@@ -6,6 +6,7 @@ public class CameraFollow : MonoBehaviour
 {
     public Transform playerTransform;
     public Transform opponentTransform;
+    public Transform playerWinCamFollowTarget;
 
     public float minDist = -0.5f;
     public float maxDist = -10.0f;
@@ -35,16 +36,15 @@ public class CameraFollow : MonoBehaviour
             }
         }
 
-        //else
-        //{
-        //    float distance = Mathf.Abs(playerTransform.position.x - opponentTransform.position.x) * 2;
-        //    float centrePoint = (playerTransform.position.x + opponentTransform.position.x) / 2;
-        //    minDist = 0.0f;
-        //    maxDist = -3.0f;
+        else
+        {
+          
+            minDist = 3.0f;
+            maxDist = -3.0f;
 
-        //    transform.position = Vector3.Lerp(transform.position, new Vector3(centrePoint, transform.position.y - 5.0f, distance * speed > minDist ? -distance : -minDist), speed * Time.deltaTime);
+            transform.position = Vector3.Lerp(transform.position, new Vector3(playerWinCamFollowTarget.position.x, playerWinCamFollowTarget.position.y, playerWinCamFollowTarget.position.z * speed), speed * Time.deltaTime);
 
-        //}
+        }
 
     }
 

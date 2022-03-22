@@ -14,9 +14,13 @@ public class PlayerBehaviour : MonoBehaviour
     public Collider leftPunchCollider;
     public Collider leftKickCollider;
     public Collider rightKickCollider;
+    public Transform opponentTransform;
+    public Animator opponentAnimator;
+
     private Collider playerCollider;
     private AudioSource sound_FX;
     public bool inputIsBlocked;
+    public bool isDead;
 
     private float random;
     private float randomSetTime;
@@ -39,7 +43,7 @@ public class PlayerBehaviour : MonoBehaviour
         playerCollider = GetComponent<Collider>();
         sound_FX = GetComponent<AudioSource>();
         inputIsBlocked = false;
-        
+        isDead = false;
     }
 
 
@@ -56,6 +60,7 @@ public class PlayerBehaviour : MonoBehaviour
             random = Random.value;
             randomSetTime = Time.time;
         }
+
     }
 
     public void UpdatePlayerInput()
@@ -290,8 +295,7 @@ public class PlayerBehaviour : MonoBehaviour
 
         if (health <= 0 && currentState != States.DEAD)
         {
-            anim.SetTrigger("Dead");
-            inputIsBlocked = true;
+            playerDead();
         }
     }
     public void setPlayerInputOff()
@@ -321,7 +325,7 @@ public class PlayerBehaviour : MonoBehaviour
 
         if (health <= 0 && currentState != States.DEAD)
         {
-            anim.SetTrigger("Dead");
+            playerDead();
         }
     }
 
@@ -333,7 +337,23 @@ public class PlayerBehaviour : MonoBehaviour
         }
     }
 
+    public void playerDead()
+    {
+        anim.SetTrigger("Dead");
+        inputIsBlocked = true;
+        isDead = true;
+        StartCoroutine(rotateOpponent());
+    }
 
+    IEnumerator rotateOpponent()
+    {
+       yield return new WaitForSeconds(2);
+        var currentRotation_P = Quaternion.Euler(opponentTransform.transform.localEulerAngles.x, opponentTransform.transform.localEulerAngles.y, opponentTransform.transform.localEulerAngles.z);
+        var desiredRotation_P = Quaternion.Euler(opponentTransform.transform.localEulerAngles.x, 90.0f, opponentTransform.transform.localEulerAngles.z);
+        opponentTransform.rotation = Quaternion.Lerp(currentRotation_P, desiredRotation_P, 0.5f);
+        opponentAnimator.SetTrigger("Celebrate 0");
+
+    }
     public void playSound(AudioClip sound)
     {
         GameUtils.playSound(sound, sound_FX);

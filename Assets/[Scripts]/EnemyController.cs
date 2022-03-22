@@ -84,6 +84,10 @@ public class EnemyController : MonoBehaviour
         {
             anim.SetTrigger("Dead");
             player.setPlayerInputOff();
+            if (player.isDead)
+            {
+                anim.SetTrigger("Celebrate 0");
+            }
         }
     }
 
@@ -111,6 +115,10 @@ public class EnemyController : MonoBehaviour
         {
             anim.SetTrigger("Dead");
             player.setPlayerInputOff();
+            if (player.isDead)
+            {
+                anim.SetTrigger("Celebrate 0");
+            }
         }
     }
 
@@ -138,6 +146,10 @@ public class EnemyController : MonoBehaviour
         {
             anim.SetTrigger("Dead");
             player.setPlayerInputOff();
+            if (player.isDead)
+            {
+                anim.SetTrigger("Celebrate 0");
+            }
         }
     }
 
@@ -166,6 +178,10 @@ public class EnemyController : MonoBehaviour
         {
             anim.SetTrigger("Dead");
             player.setPlayerInputOff();
+            if (player.isDead)
+            {
+                anim.SetTrigger("Celebrate 0");
+            }
         }
 
     }
