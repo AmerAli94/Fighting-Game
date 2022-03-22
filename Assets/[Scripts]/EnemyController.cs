@@ -20,6 +20,7 @@ public class EnemyController : MonoBehaviour
     public States currentState = States.IDLE;
     private float random;
     private float randomSetTime;
+    public PlayerBehaviour player;
 
     void Awake()
     {
@@ -82,6 +83,7 @@ public class EnemyController : MonoBehaviour
         if (health <= 0 && currentState != States.DEAD)
         {
             anim.SetTrigger("Dead");
+            player.setPlayerInputOff();
         }
     }
 
@@ -108,6 +110,7 @@ public class EnemyController : MonoBehaviour
         if (health <= 0 && currentState != States.DEAD)
         {
             anim.SetTrigger("Dead");
+            player.setPlayerInputOff();
         }
     }
 
@@ -134,6 +137,7 @@ public class EnemyController : MonoBehaviour
         if (health <= 0 && currentState != States.DEAD)
         {
             anim.SetTrigger("Dead");
+            player.setPlayerInputOff();
         }
     }
 
@@ -161,6 +165,7 @@ public class EnemyController : MonoBehaviour
         if (health <= 0 && currentState != States.DEAD)
         {
             anim.SetTrigger("Dead");
+            player.setPlayerInputOff();
         }
 
     }

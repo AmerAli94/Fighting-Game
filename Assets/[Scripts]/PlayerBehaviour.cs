@@ -16,6 +16,7 @@ public class PlayerBehaviour : MonoBehaviour
     public Collider rightKickCollider;
     private Collider playerCollider;
     private AudioSource sound_FX;
+    public bool inputIsBlocked;
 
     private float random;
     private float randomSetTime;
@@ -37,6 +38,7 @@ public class PlayerBehaviour : MonoBehaviour
         _rb = GetComponent<Rigidbody>();
         playerCollider = GetComponent<Collider>();
         sound_FX = GetComponent<AudioSource>();
+        inputIsBlocked = false;
         
     }
 
@@ -44,7 +46,10 @@ public class PlayerBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        UpdatePlayerInput();
+        if(!inputIsBlocked)
+        {
+            UpdatePlayerInput();
+        }
         anim.SetFloat("Random", random);
         if (Time.time - randomSetTime > 1)
         {
@@ -286,9 +291,13 @@ public class PlayerBehaviour : MonoBehaviour
         if (health <= 0 && currentState != States.DEAD)
         {
             anim.SetTrigger("Dead");
+            inputIsBlocked = true;
         }
     }
-
+    public void setPlayerInputOff()
+    {
+         inputIsBlocked = true;
+    }
     public virtual void LeftPunchDamage(float damage)
     {
 
