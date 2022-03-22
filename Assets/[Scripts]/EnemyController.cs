@@ -15,16 +15,17 @@ public class EnemyController : MonoBehaviour
     public Collider opponentLeftPunchCollider;
     public Collider opponentLeftKickCollider;
     public Collider opponentRightKickCollider;
+    private AudioSource sound_FX;
 
     public States currentState = States.IDLE;
     private float random;
-    private float randonSetTime;
+    private float randomSetTime;
 
     void Awake()
     {
         if (anim == null)
             anim = GetComponent<Animator>();
-
+        sound_FX = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -38,10 +39,10 @@ public class EnemyController : MonoBehaviour
         anim.SetFloat("Random", random);
         anim.SetFloat("distanceToPlayer", GetDistanceToPlayer());
 
-        if (Time.time - randonSetTime > 1)
+        if (Time.time - randomSetTime > 1)
         {
             random = Random.value;
-            randonSetTime = Time.time;
+            randomSetTime = Time.time;
         }
     }
 
@@ -201,5 +202,12 @@ public class EnemyController : MonoBehaviour
             return currentState == States.BLOCK;
         }
     }
+
+
+    public void playSound(AudioClip sound)
+    {
+        GameUtils.playSound(sound, sound_FX);
+    }
+
 
 }

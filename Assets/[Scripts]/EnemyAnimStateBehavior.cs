@@ -8,6 +8,8 @@ public class EnemyAnimStateBehavior : StateMachineBehaviour
     public float horizontalForce;
     public float verticalForce;
     public States opponentStateBehaviour;
+    public AudioClip soundFX;
+
 
     protected EnemyController _enemy;
 
@@ -20,6 +22,12 @@ public class EnemyAnimStateBehavior : StateMachineBehaviour
         _enemy.currentState = opponentStateBehaviour;
         Rigidbody rb = _enemy.GetComponent<Rigidbody>();
         rb.AddRelativeForce(new Vector3(0, verticalForce, 0));
+
+
+        if (soundFX != null)
+        {
+            _enemy.playSound(soundFX);
+        }
 
     }
 

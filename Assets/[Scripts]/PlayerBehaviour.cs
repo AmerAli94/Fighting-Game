@@ -15,6 +15,10 @@ public class PlayerBehaviour : MonoBehaviour
     public Collider leftKickCollider;
     public Collider rightKickCollider;
     private Collider playerCollider;
+    private AudioSource sound_FX;
+
+    private float random;
+    private float randomSetTime;
 
     int CurrentComboPriorty = 0;
 
@@ -32,6 +36,7 @@ public class PlayerBehaviour : MonoBehaviour
     {
         _rb = GetComponent<Rigidbody>();
         playerCollider = GetComponent<Collider>();
+        sound_FX = GetComponent<AudioSource>();
         
     }
 
@@ -40,6 +45,12 @@ public class PlayerBehaviour : MonoBehaviour
     void Update()
     {
         UpdatePlayerInput();
+        anim.SetFloat("Random", random);
+        if (Time.time - randomSetTime > 1)
+        {
+            random = Random.value;
+            randomSetTime = Time.time;
+        }
     }
 
     public void UpdatePlayerInput()
@@ -313,5 +324,10 @@ public class PlayerBehaviour : MonoBehaviour
         }
     }
 
+
+    public void playSound(AudioClip sound)
+    {
+        GameUtils.playSound(sound, sound_FX);
+    }
 
 }

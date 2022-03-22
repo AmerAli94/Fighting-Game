@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Kick
   m_EditorClassIdentifier: 
   comboKeyCodes: 7a000000
-  comboType: 3
+  comboType: 5
   ComboPriorty: 10
