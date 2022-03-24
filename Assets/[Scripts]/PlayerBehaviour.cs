@@ -19,6 +19,7 @@ public class PlayerBehaviour : MonoBehaviour
     public bool inputIsBlocked;
     public bool isDead;
     public EnemyController opponent;
+    public GameObject pauseScreen;
 
 
 
@@ -45,6 +46,7 @@ public class PlayerBehaviour : MonoBehaviour
         _rb = GetComponent<Rigidbody>();
         playerCollider = GetComponent<Collider>();
         sound_FX = GetComponent<AudioSource>();
+        Time.timeScale = 1.0f;
         inputIsBlocked = false;
         isDead = false;
     }
@@ -189,6 +191,12 @@ public class PlayerBehaviour : MonoBehaviour
             anim.SetBool("Walk", false);
             anim.SetBool("Crouch", false);
             // _anim.SetFloat("WalkSpeed", 1, 0.1f, Time.deltaTime);
+        }
+
+        if(Input.GetKeyDown(KeyCode.P))
+        {
+            Time.timeScale = 0.0f;
+            pauseScreen.SetActive(true);
         }
     }
 

@@ -14,11 +14,13 @@ public class UIController : MonoBehaviour
 
     public GameObject winScreen;
     public GameObject loseScreen;
+    public GameObject pauseScreen;
 
     private void Start()
     {
         winScreen.SetActive(false);
         loseScreen.SetActive(false);
+        pauseScreen.SetActive(false);
     }
 
     // Update is called once per frame
@@ -53,5 +55,11 @@ public class UIController : MonoBehaviour
     public void OnMenuPressed()
     {
         SceneManager.LoadScene("Menu");
+    }
+
+    public void OnResumePressed()
+    {
+        Time.timeScale = 1.0f;
+        pauseScreen.SetActive(false);
     }
 }
