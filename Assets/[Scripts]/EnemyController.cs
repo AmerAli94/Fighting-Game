@@ -11,6 +11,7 @@ public class EnemyController : MonoBehaviour
 
     public Animator anim;
     public Transform playerTransform;
+    public Collider reverseCollider;
     public Collider opponentRightPunchCollider;
     public Collider opponentLeftPunchCollider;
     public Collider opponentLeftKickCollider;
@@ -21,6 +22,7 @@ public class EnemyController : MonoBehaviour
     private float random;
     private float randomSetTime;
     public PlayerBehaviour player;
+
 
     void Awake()
     {
@@ -33,6 +35,10 @@ public class EnemyController : MonoBehaviour
     void Update()
     {
         UpdateOpponentInput();
+        if(currentState == States.DEAD)
+        {
+            reverseCollider.enabled = false;
+        }
     }
 
     public void UpdateOpponentInput()
@@ -44,6 +50,11 @@ public class EnemyController : MonoBehaviour
         {
             random = Random.value;
             randomSetTime = Time.time;
+        }
+
+        if(player.currentState == States.JUMP)
+        {
+            anim.SetTrigger("Idle");
         }
     }
 
@@ -84,10 +95,7 @@ public class EnemyController : MonoBehaviour
         {
             anim.SetTrigger("Dead");
             player.setPlayerInputOff();
-            if (player.isDead)
-            {
-                anim.SetTrigger("Celebrate 0");
-            }
+            player.PlayerWon();
         }
     }
 
@@ -115,10 +123,7 @@ public class EnemyController : MonoBehaviour
         {
             anim.SetTrigger("Dead");
             player.setPlayerInputOff();
-            if (player.isDead)
-            {
-                anim.SetTrigger("Celebrate 0");
-            }
+            player.PlayerWon();
         }
     }
 
@@ -146,10 +151,7 @@ public class EnemyController : MonoBehaviour
         {
             anim.SetTrigger("Dead");
             player.setPlayerInputOff();
-            if (player.isDead)
-            {
-                anim.SetTrigger("Celebrate 0");
-            }
+            player.PlayerWon();
         }
     }
 
@@ -178,10 +180,7 @@ public class EnemyController : MonoBehaviour
         {
             anim.SetTrigger("Dead");
             player.setPlayerInputOff();
-            if (player.isDead)
-            {
-                anim.SetTrigger("Celebrate 0");
-            }
+            player.PlayerWon();
         }
 
     }

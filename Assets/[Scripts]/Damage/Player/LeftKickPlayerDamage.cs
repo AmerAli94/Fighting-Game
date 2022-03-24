@@ -6,6 +6,7 @@ public class LeftKickPlayerDamage : MonoBehaviour
 {
     public EnemyController enemy;
     public float damage;
+    [SerializeField]
     private Collider punchCollider;
     public void Start()
     {

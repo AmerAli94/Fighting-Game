@@ -6,12 +6,9 @@ public class ReverseDirection : MonoBehaviour
 {
 
     public Transform player;
-
     public Transform opponent;
     public float rotationSpeed;
-
     public Collider directionChangeCollider;
-
 
     // Start is called before the first frame update
     void Start()
@@ -34,30 +31,35 @@ public class ReverseDirection : MonoBehaviour
         {
             if (playerYAxis == 0.0f)
             {
-                //Vector3 currentRotation = player.rotation.eulerAngles;
-                //Vector3 targetRotation = new Vector3(player.transform.localEulerAngles.x, -90.0f, player.transform.localEulerAngles.z);
-                //player.rotation = Quaternion.Euler(player.transform.localEulerAngles.x, -90.0f, player.transform.localEulerAngles.z);
-                var currentRotation_P = Quaternion.Euler(player.transform.localEulerAngles.x, player.transform.localEulerAngles.y, player.transform.localEulerAngles.z);
-                var desiredRotation_P = Quaternion.Euler(player.transform.localEulerAngles.x, 180.0f, player.transform.localEulerAngles.z);
-                player.rotation = Quaternion.Lerp(currentRotation_P, desiredRotation_P, 0.5f);
-
-                var currentRotation_O = Quaternion.Euler(opponent.transform.localEulerAngles.x, opponent.transform.localEulerAngles.y, opponent.transform.localEulerAngles.z);
-                var desiredRotation_O = Quaternion.Euler(opponent.transform.localEulerAngles.x, -180.0f, opponent.transform.localEulerAngles.z);
-                opponent.rotation = Quaternion.Lerp(currentRotation_O, desiredRotation_O, 0.5f);
-               // opponent.rotation = Quaternion.Euler(opponent.transform.localEulerAngles.x, 90.0f, opponent.transform.localEulerAngles.z);
-
-
+                StartCoroutine(JumpRotToLeftDelay());
             }
             
             if(playerYAxis == 180.0f)
             {
-                player.rotation = Quaternion.Euler(player.transform.localEulerAngles.x, 90.0f, player.transform.localEulerAngles.z);
-                opponent.rotation = Quaternion.Euler(opponent.transform.localEulerAngles.x, -90.0f, opponent.transform.localEulerAngles.z);
-
+                StartCoroutine(JumpRotToRightDelay());
             }
-
-
         }
+    }
 
+    IEnumerator JumpRotToLeftDelay()
+    {
+        yield return new WaitForSeconds(0.3f);
+
+        var currentRotation_P = Quaternion.Euler(player.transform.localEulerAngles.x, player.transform.localEulerAngles.y, player.transform.localEulerAngles.z);
+        var desiredRotation_P = Quaternion.Euler(player.transform.localEulerAngles.x, 180.0f, player.transform.localEulerAngles.z);
+        player.rotation = Quaternion.Lerp(currentRotation_P, desiredRotation_P, 0.5f);
+
+        var currentRotation_O = Quaternion.Euler(opponent.transform.localEulerAngles.x, opponent.transform.localEulerAngles.y, opponent.transform.localEulerAngles.z);
+        var desiredRotation_O = Quaternion.Euler(opponent.transform.localEulerAngles.x, -180.0f, opponent.transform.localEulerAngles.z);
+        opponent.rotation = Quaternion.Lerp(currentRotation_O, desiredRotation_O, 0.5f);
+        Debug.Log("JumpRotToLeftDelay");
+    }
+
+    IEnumerator JumpRotToRightDelay()
+    {
+        yield return new WaitForSeconds(0.3f);
+
+        player.rotation = Quaternion.Euler(player.transform.localEulerAngles.x, 90.0f, player.transform.localEulerAngles.z);
+        opponent.rotation = Quaternion.Euler(opponent.transform.localEulerAngles.x, -90.0f, opponent.transform.localEulerAngles.z);
     }
 }
