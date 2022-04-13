@@ -28,8 +28,8 @@ public class PlayerBehaviour : MonoBehaviour
     private Collider playerCollider;
     private AudioSource sound_FX;
 
-    private float random;
-    private float randomSetTime;
+    //private float random;
+    //private float randomSetTime;
 
     int CurrentComboPriorty = 0;
 
@@ -61,12 +61,12 @@ public class PlayerBehaviour : MonoBehaviour
         {
             UpdatePlayerInput();
         }
-        anim.SetFloat("Random", random);
-        if (Time.time - randomSetTime > 1)
-        {
-            random = Random.value;
-            randomSetTime = Time.time;
-        }
+        //anim.SetFloat("Random", random);
+        //if (Time.time - randomSetTime > 1)
+        //{
+        //    random = Random.value;
+        //    randomSetTime = Time.time;
+        //}
     }
 
     public void UpdatePlayerInput()
@@ -348,6 +348,59 @@ public class PlayerBehaviour : MonoBehaviour
         }
     }
 
+    public virtual void LeftKickDamage(float damage)
+    {
+
+        if (Blocking)
+        {
+            damage *= 0.2f;
+        }
+        if (health >= damage)
+        {
+            health -= damage;
+        }
+        else
+        {
+            health = 0;
+        }
+
+        if (health > 0 && currentState != States.BLOCK)
+        {
+            anim.SetTrigger("Take_Hit");
+        }
+
+        if (health <= 0 && currentState != States.DEAD)
+        {
+            PlayerDead();
+        }
+    }
+    public virtual void RightKickDamage(float damage)
+    {
+
+        if (Blocking)
+        {
+            damage *= 0.2f;
+        }
+        if (health >= damage)
+        {
+            health -= damage;
+        }
+        else
+        {
+            health = 0;
+        }
+
+        if (health > 0 && currentState != States.BLOCK)
+        {
+            anim.SetTrigger("Take_Hit");
+        }
+
+        if (health <= 0 && currentState != States.DEAD)
+        {
+            PlayerDead();
+        }
+    }
+
 
     public bool Blocking
     {
@@ -371,35 +424,34 @@ public class PlayerBehaviour : MonoBehaviour
         anim.SetTrigger("Dead");
         inputIsBlocked = true;
         isDead = true;
-        StartCoroutine(rotateOpponent());
-        Debug.Log("Being Called");
+        anim.SetBool("Block", false);
+        opponentAnimator.SetTrigger("Celebrate 0");
+      //  StartCoroutine(rotateOpponent());
     }
 
     public void PlayerWon()
     {
         anim.SetTrigger("Celebrate");
         inputIsBlocked = true;
-        StartCoroutine(rotatePlayerAfterWin());
+       // StartCoroutine(rotatePlayerAfterWin());
     }
 
-    IEnumerator rotateOpponent()
-    {
-       yield return new WaitForSeconds(2);
-        var currentRotation_E = Quaternion.Euler(opponentTransform.transform.localEulerAngles.x, opponentTransform.transform.localEulerAngles.y, opponentTransform.transform.localEulerAngles.z);
-        var desiredRotation_E = Quaternion.Euler(opponentTransform.transform.localEulerAngles.x, 90.0f, opponentTransform.transform.localEulerAngles.z);
-        opponentTransform.rotation = Quaternion.Lerp(currentRotation_E, desiredRotation_E, 0.5f);
-        opponentAnimator.SetTrigger("Celebrate 0");
+    //IEnumerator rotateOpponent()
+    //{
+    //   yield return new WaitForSeconds(2);
+    //    var currentRotation_E = Quaternion.Euler(opponentTransform.transform.localEulerAngles.x, opponentTransform.transform.localEulerAngles.y, opponentTransform.transform.localEulerAngles.z);
+    //    var desiredRotation_E = Quaternion.Euler(opponentTransform.transform.localEulerAngles.x, 90.0f, opponentTransform.transform.localEulerAngles.z);
+    //    opponentTransform.rotation = Quaternion.Lerp(currentRotation_E, desiredRotation_E, 0.5f);
 
-    }
-    IEnumerator rotatePlayerAfterWin()
-    {
-        yield return new WaitForSeconds(2);
-        var currentRotation_P = Quaternion.Euler(transform.localEulerAngles.x, transform.localEulerAngles.y, transform.localEulerAngles.z);
-        var desiredRotation_P = Quaternion.Euler(transform.localEulerAngles.x, 270.0f, transform.localEulerAngles.z);
-        transform.rotation = Quaternion.Lerp(currentRotation_P, desiredRotation_P, 0.5f);
-        anim.SetTrigger("Celebrate");
-
-    }
+    //}
+    //IEnumerator rotatePlayerAfterWin()
+    //{
+    //    yield return new WaitForSeconds(2);
+    //    var currentRotation_P = Quaternion.Euler(transform.localEulerAngles.x, transform.localEulerAngles.y, transform.localEulerAngles.z);
+    //    var desiredRotation_P = Quaternion.Euler(transform.localEulerAngles.x, 270.0f, transform.localEulerAngles.z);
+    //    transform.rotation = Quaternion.Lerp(currentRotation_P, desiredRotation_P, 0.5f);
+    //    anim.SetTrigger("Celebrate");
+    //}
     public void playSound(AudioClip sound)
     {
         GameUtils.playSound(sound, sound_FX);

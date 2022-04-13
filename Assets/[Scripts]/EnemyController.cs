@@ -39,6 +39,11 @@ public class EnemyController : MonoBehaviour
         {
             reverseCollider.enabled = false;
         }
+
+        if(player.currentState == States.JUMP)
+        {
+            currentState = States.IDLE;
+        }
     }
 
     public void UpdateOpponentInput()
@@ -215,6 +220,15 @@ public class EnemyController : MonoBehaviour
         opponentLeftKickCollider.enabled = false;
     }
 
+    public void OpenOpponentRightKickCollider()
+    {
+        opponentRightKickCollider.enabled = true;
+    }
+
+    public void CloseOpponentRightKickCollider()
+    {
+        opponentRightKickCollider.enabled = false;
+    }
     public bool blocking
     {
         get

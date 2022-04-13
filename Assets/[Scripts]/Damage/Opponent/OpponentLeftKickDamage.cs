@@ -2,15 +2,15 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class OpponentRightPunchDamage : MonoBehaviour
+public class OpponentLeftKickDamage : MonoBehaviour
 {
     public PlayerBehaviour player;
     public float damage;
-    private Collider punchCollider;
+    private Collider kickCollider;
     public void Start()
     {
-        punchCollider = GetComponent<Collider>();
-        punchCollider.enabled = false;
+        kickCollider = GetComponent<Collider>();
+        kickCollider.enabled = false;
     }
     private void Update()
     {
@@ -20,8 +20,7 @@ public class OpponentRightPunchDamage : MonoBehaviour
     {
         if (other.gameObject.CompareTag("Player"))
         {
-            Debug.Log("Opponent punched");
-            player.RightKickDamage(damage);
+            player.LeftKickDamage(damage);
         }
     }
 }
