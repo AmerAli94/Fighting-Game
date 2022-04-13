@@ -21,7 +21,9 @@ public class UIController : MonoBehaviour
         winScreen.SetActive(false);
         loseScreen.SetActive(false);
         pauseScreen.SetActive(false);
+
     }
+
 
     // Update is called once per frame
     void Update()
@@ -40,12 +42,13 @@ public class UIController : MonoBehaviour
             loseScreen.SetActive(true);
         }
 
+
         if(enemy.currentState == States.DEAD)
         {
             winScreen.SetActive(true);
         }
-
     }
+
 
     public void OnRematchPressed()
     {

@@ -52,7 +52,6 @@ public class ReverseDirection : MonoBehaviour
         var currentRotation_O = Quaternion.Euler(opponent.transform.localEulerAngles.x, opponent.transform.localEulerAngles.y, opponent.transform.localEulerAngles.z);
         var desiredRotation_O = Quaternion.Euler(opponent.transform.localEulerAngles.x, -180.0f, opponent.transform.localEulerAngles.z);
         opponent.rotation = Quaternion.Lerp(currentRotation_O, desiredRotation_O, 0.5f);
-        Debug.Log("JumpRotToLeftDelay");
     }
 
     IEnumerator JumpRotToRightDelay()

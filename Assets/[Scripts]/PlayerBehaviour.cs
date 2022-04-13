@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 public class PlayerBehaviour : MonoBehaviour
 {
@@ -20,6 +21,7 @@ public class PlayerBehaviour : MonoBehaviour
     public bool isDead;
     public EnemyController opponent;
     public GameObject pauseScreen;
+    public GameObject resumeButton;
 
 
 
@@ -87,7 +89,7 @@ public class PlayerBehaviour : MonoBehaviour
         }
 
         // Jump
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.JoystickButton5))
         {
             anim.SetTrigger("Jump");
             anim.SetBool("Walk", false);
@@ -97,7 +99,7 @@ public class PlayerBehaviour : MonoBehaviour
         }
 
         //Block
-        if (Input.GetKeyDown(KeyCode.LeftShift))
+        if (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.JoystickButton4))
         {
             anim.SetBool("Block", true);
             anim.SetBool("Walk", false);
@@ -106,12 +108,24 @@ public class PlayerBehaviour : MonoBehaviour
 
         }
 
-        if (Input.GetKeyUp(KeyCode.LeftShift))
+        if (Input.GetKeyUp(KeyCode.LeftShift) || Input.GetKeyUp(KeyCode.JoystickButton4) )
         {
             anim.SetBool("Block", false);
             anim.SetBool("Walk", false);
             anim.SetBool("Walk_Back", false);
             anim.SetBool("Crouch", false);
+        }
+
+        //pause game
+        if (Input.GetKeyDown(KeyCode.P) || Input.GetKeyDown(KeyCode.JoystickButton6))
+        {
+            Time.timeScale = 0.0f;
+            pauseScreen.SetActive(true);
+
+            //for UI selection
+            EventSystem.current.SetSelectedGameObject(null);
+            EventSystem.current.SetSelectedGameObject(resumeButton);
+
         }
 
         if (Input.GetKeyDown(KeyCode.Escape))
@@ -193,11 +207,6 @@ public class PlayerBehaviour : MonoBehaviour
             // _anim.SetFloat("WalkSpeed", 1, 0.1f, Time.deltaTime);
         }
 
-        if(Input.GetKeyDown(KeyCode.P))
-        {
-            Time.timeScale = 0.0f;
-            pauseScreen.SetActive(true);
-        }
     }
 
     void invertedHorizontalInput()
