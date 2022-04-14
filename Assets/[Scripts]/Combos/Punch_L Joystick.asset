@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ee2631bce6031d14aab61489bfe46697, type: 3}
   m_Name: Punch_L Joystick
   m_EditorClassIdentifier: 
-  comboKeyCodes: 4a010000
+  comboKeyCodes: 4c010000
   comboType: 2
   ComboPriorty: 5

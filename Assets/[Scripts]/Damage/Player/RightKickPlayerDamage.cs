@@ -14,7 +14,7 @@ public class RightKickPlayerDamage : MonoBehaviour
     }
     private void Update()
     {
-        damage = Random.Range(10.0f, 14.0f);
+        damage = Random.Range(4.5f, 6.0f);
     }
     private void OnTriggerEnter(Collider other)
     {
