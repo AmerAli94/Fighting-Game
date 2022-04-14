@@ -28,8 +28,8 @@ public class PlayerBehaviour : MonoBehaviour
     private Collider playerCollider;
     private AudioSource sound_FX;
 
-    //private float random;
-    //private float randomSetTime;
+    private float random;
+    private float randomSetTime;
 
     int CurrentComboPriorty = 0;
 
@@ -62,11 +62,11 @@ public class PlayerBehaviour : MonoBehaviour
             UpdatePlayerInput();
         }
         //anim.SetFloat("Random", random);
-        //if (Time.time - randomSetTime > 1)
-        //{
-        //    random = Random.value;
-        //    randomSetTime = Time.time;
-        //}
+        if (Time.time - randomSetTime > 1)
+        {
+            random = Random.value;
+            randomSetTime = Time.time;
+        }
     }
 
     public void UpdatePlayerInput()
@@ -89,7 +89,7 @@ public class PlayerBehaviour : MonoBehaviour
         }
 
         // Jump
-        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.JoystickButton5))
+        if (Input.GetKeyDown(KeyCode.Space) || Input.GetKeyDown(KeyCode.JoystickButton5) && opponent.currentState != States.ATTACK)
         {
             anim.SetTrigger("Jump");
             anim.SetBool("Walk", false);
@@ -116,8 +116,8 @@ public class PlayerBehaviour : MonoBehaviour
             anim.SetBool("Crouch", false);
         }
 
-        //pause game
-        if (Input.GetKeyDown(KeyCode.P) || Input.GetKeyDown(KeyCode.JoystickButton6))
+        //pause game // Start/Options Button Joystick
+        if (Input.GetKeyDown(KeyCode.P) || Input.GetKeyDown(KeyCode.JoystickButton7))
         {
             Time.timeScale = 0.0f;
             pauseScreen.SetActive(true);

@@ -18,7 +18,7 @@ public class PlayerAnimStateBehaviour : StateMachineBehaviour
         }
         _player.currentState = stateBehaviour;
         Rigidbody rb = _player.GetComponent<Rigidbody>();
-        rb.AddRelativeForce(new Vector3(0, verticalForce, 0));
+        rb.AddRelativeForce(new Vector3(0, verticalForce * Time.deltaTime, 0));
 
         if(soundFX != null)
         {
@@ -30,7 +30,7 @@ public class PlayerAnimStateBehaviour : StateMachineBehaviour
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         Rigidbody rb = _player.GetComponent<Rigidbody>();
-        rb.AddRelativeForce(new Vector3(0, 0, horizontalForce));
+        rb.AddRelativeForce(new Vector3(0, 0, horizontalForce * Time.deltaTime));
 
     }
 }

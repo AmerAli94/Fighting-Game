@@ -17,7 +17,7 @@ public class RightPunchPlayerDamage : MonoBehaviour
 
     private void Update()
     {
-        damage = Random.Range(5.0f, 7.0f);
+        damage = Random.Range(2.5f, 3.5f);
     }
 
     private void OnTriggerEnter(Collider other)

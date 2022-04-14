@@ -558,8 +558,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 699b9ce19d5549d4e8595be8af2f2a10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  horizontalForce: 350
-  verticalForce: 250
+  horizontalForce: 20000
+  verticalForce: 12000
   stateBehaviour: 3
   soundFX: {fileID: 0}
 --- !u!114 &-418576123210901498
@@ -574,7 +574,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 699b9ce19d5549d4e8595be8af2f2a10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  horizontalForce: -150
+  horizontalForce: -10000
   verticalForce: 0
   stateBehaviour: 2
   soundFX: {fileID: 0}
@@ -586,7 +586,7 @@ AnimatorState:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_Name: Jump
-  m_Speed: 1.5
+  m_Speed: 1.4
   m_CycleOffset: 0
   m_Transitions:
   - {fileID: 369599112109640194}
@@ -899,7 +899,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 699b9ce19d5549d4e8595be8af2f2a10, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  horizontalForce: 150
+  horizontalForce: 10000
   verticalForce: 0
   stateBehaviour: 1
   soundFX: {fileID: 0}

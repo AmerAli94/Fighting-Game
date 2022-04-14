@@ -21,7 +21,7 @@ public class EnemyAnimStateBehavior : StateMachineBehaviour
         }
         _enemy.currentState = opponentStateBehaviour;
         Rigidbody rb = _enemy.GetComponent<Rigidbody>();
-        rb.AddRelativeForce(new Vector3(0, verticalForce, 0));
+        rb.AddRelativeForce(new Vector3(0, verticalForce * Time.deltaTime, 0));
 
 
         if (soundFX != null)
@@ -34,7 +34,7 @@ public class EnemyAnimStateBehavior : StateMachineBehaviour
     override public void OnStateUpdate(Animator animator, AnimatorStateInfo stateInfo, int layerIndex)
     {
         Rigidbody rb = _enemy.GetComponent<Rigidbody>();
-        rb.AddRelativeForce(new Vector3(0, 0, horizontalForce));
+        rb.AddRelativeForce(new Vector3(0, 0, horizontalForce * Time.deltaTime));
 
     }
 }
