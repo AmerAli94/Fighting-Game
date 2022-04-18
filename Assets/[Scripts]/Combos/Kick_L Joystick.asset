@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Kick_L Joystick
   m_EditorClassIdentifier: 
   comboKeyCodes: 4d010000
-  comboType: 4
+  comboType: 6
   ComboPriorty: 50

@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Kick_L
   m_EditorClassIdentifier: 
   comboKeyCodes: 63000000
-  comboType: 4
+  comboType: 6
   ComboPriorty: 50

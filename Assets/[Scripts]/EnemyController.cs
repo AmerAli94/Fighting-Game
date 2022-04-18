@@ -31,6 +31,11 @@ public class EnemyController : MonoBehaviour
         sound_FX = GetComponent<AudioSource>();
     }
 
+    void Start()
+    {
+        reverseCollider.enabled = true;
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -40,10 +45,6 @@ public class EnemyController : MonoBehaviour
             reverseCollider.enabled = false;
         }
 
-        if(player.currentState == States.JUMP)
-        {
-            currentState = States.IDLE;
-        }
     }
 
     public void UpdateOpponentInput()
@@ -55,11 +56,6 @@ public class EnemyController : MonoBehaviour
         {
             random = Random.value;
             randomSetTime = Time.time;
-        }
-
-        if(player.currentState == States.JUMP)
-        {
-            anim.SetTrigger("Idle");
         }
     }
 

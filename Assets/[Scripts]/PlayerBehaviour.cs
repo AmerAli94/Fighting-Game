@@ -22,7 +22,7 @@ public class PlayerBehaviour : MonoBehaviour
     public EnemyController opponent;
     public GameObject pauseScreen;
     public GameObject resumeButton;
-
+    public bool invertedInput;
 
 
     private Collider playerCollider;
@@ -57,7 +57,7 @@ public class PlayerBehaviour : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(!inputIsBlocked)
+        if (!inputIsBlocked)
         {
             UpdatePlayerInput();
         }
@@ -119,8 +119,18 @@ public class PlayerBehaviour : MonoBehaviour
         //pause game // Start/Options Button Joystick
         if (Input.GetKeyDown(KeyCode.P) || Input.GetKeyDown(KeyCode.JoystickButton7))
         {
-            Time.timeScale = 0.0f;
-            pauseScreen.SetActive(true);
+            if(!pauseScreen.active)
+            {
+                Time.timeScale = 0.0f;
+                pauseScreen.SetActive(true);
+                
+            }
+
+            else
+            {
+                Time.timeScale = 1.0f;
+                pauseScreen.SetActive(false);
+            }
 
             //for UI selection
             EventSystem.current.SetSelectedGameObject(null);
@@ -171,6 +181,10 @@ public class PlayerBehaviour : MonoBehaviour
                 case combosList.Punch_Combo:
                     anim.SetTrigger("Punch_Combo");
                     break;
+                case combosList.Kick_Combo:
+                    anim.SetTrigger("Kick_Combo");
+                    Debug.Log("KIck combo called");
+                    break;
                 case combosList.Kick_R:
                     anim.SetTrigger("Kick_R");
                     break;
@@ -188,7 +202,7 @@ public class PlayerBehaviour : MonoBehaviour
 
     void DefaultHorizontalMovement()
     {
-      
+        invertedInput = false;
         //Walk front
         if (Input.GetAxis("Horizontal") > 0.1)
         {
@@ -211,7 +225,7 @@ public class PlayerBehaviour : MonoBehaviour
 
     void invertedHorizontalInput()
     {
-
+        invertedInput = true;
         //Walk front
         if (Input.GetAxis("Horizontal") > 0.1)
         {
@@ -425,33 +439,42 @@ public class PlayerBehaviour : MonoBehaviour
         inputIsBlocked = true;
         isDead = true;
         anim.SetBool("Block", false);
-        opponentAnimator.SetTrigger("Celebrate 0");
-      //  StartCoroutine(rotateOpponent());
+        StartCoroutine(rotateOpponent());
     }
 
     public void PlayerWon()
     {
-        anim.SetTrigger("Celebrate");
         inputIsBlocked = true;
-       // StartCoroutine(rotatePlayerAfterWin());
+        StartCoroutine(rotatePlayerAfterWin());
     }
 
-    //IEnumerator rotateOpponent()
-    //{
-    //   yield return new WaitForSeconds(2);
-    //    var currentRotation_E = Quaternion.Euler(opponentTransform.transform.localEulerAngles.x, opponentTransform.transform.localEulerAngles.y, opponentTransform.transform.localEulerAngles.z);
-    //    var desiredRotation_E = Quaternion.Euler(opponentTransform.transform.localEulerAngles.x, 90.0f, opponentTransform.transform.localEulerAngles.z);
-    //    opponentTransform.rotation = Quaternion.Lerp(currentRotation_E, desiredRotation_E, 0.5f);
-
-    //}
-    //IEnumerator rotatePlayerAfterWin()
-    //{
-    //    yield return new WaitForSeconds(2);
-    //    var currentRotation_P = Quaternion.Euler(transform.localEulerAngles.x, transform.localEulerAngles.y, transform.localEulerAngles.z);
-    //    var desiredRotation_P = Quaternion.Euler(transform.localEulerAngles.x, 270.0f, transform.localEulerAngles.z);
-    //    transform.rotation = Quaternion.Lerp(currentRotation_P, desiredRotation_P, 0.5f);
-    //    anim.SetTrigger("Celebrate");
-    //}
+    IEnumerator rotateOpponent()
+    {
+        yield return new WaitForSeconds(2);
+        if(invertedInput == true)
+        {
+            var currentRotation_E = Quaternion.Euler(opponentTransform.transform.localEulerAngles.x, opponentTransform.transform.localEulerAngles.y, opponentTransform.transform.localEulerAngles.z);
+            var desiredRotation_E = Quaternion.Euler(opponentTransform.transform.localEulerAngles.x, 75.0f, opponentTransform.transform.localEulerAngles.z);
+            opponentTransform.rotation = Quaternion.Lerp(currentRotation_E, desiredRotation_E, 0.5f);
+        }
+        if(invertedInput == false)
+        {
+            var currentRotation_E = Quaternion.Euler(opponentTransform.transform.localEulerAngles.x, opponentTransform.transform.localEulerAngles.y, opponentTransform.transform.localEulerAngles.z);
+            var desiredRotation_E = Quaternion.Euler(opponentTransform.transform.localEulerAngles.x, 90.0f, opponentTransform.transform.localEulerAngles.z);
+            opponentTransform.rotation = Quaternion.Lerp(currentRotation_E, desiredRotation_E, 0.5f);
+        }
+ 
+        opponent.reverseCollider.enabled = false;
+        opponentAnimator.SetTrigger("Celebrate 0");
+    }
+    IEnumerator rotatePlayerAfterWin()
+    {
+        yield return new WaitForSeconds(2);
+        var currentRotation_P = Quaternion.Euler(transform.parent.localEulerAngles.x, transform.parent.localEulerAngles.y, transform.parent.localEulerAngles.z);
+        var desiredRotation_P = Quaternion.Euler(transform.parent.localEulerAngles.x, 260.0f, transform.parent.localEulerAngles.z);
+        transform.rotation = Quaternion.Lerp(currentRotation_P, desiredRotation_P, 0.5f);
+        anim.SetTrigger("Celebrate");
+    }
     public void playSound(AudioClip sound)
     {
         GameUtils.playSound(sound, sound_FX);

@@ -4,6 +4,7 @@ public enum combosList //All available combos
     Punch_R,
     Punch_L,
     Punch_Combo,
+    Kick_Combo,
     Kick_R,
     Kick_L,
     Block
